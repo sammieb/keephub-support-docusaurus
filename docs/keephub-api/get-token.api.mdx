@@ -1,0 +1,71 @@
+---
+id: get-token
+title: "Get a token"
+description: "Provide email and password in order to receive token"
+sidebar_label: "Get a token"
+hide_title: true
+hide_table_of_contents: true
+api: eJydU02P2jAQ/SuWzxCg6olT1Wq1qiq1qLAnxMGxh8RLYru2wy6N8t8742T57lYqh4TYM8/P771puXXgRdTWfFV8zguIK7sDw0fcQ3DWBAh83vIP0xm9FATptaNyLF42UkLYNtWBFWAIBhSLQ3uQJdSCmuLBAVbb/Blk5F034h/voT0Z0cTSev0b1Lv9CHDZufB2rxUwrNcVE0YxJ0J4sV4xbRi+wCMt5kGC3sORYRQF3m3N6VgwUcskA9/g2SAbr+MBdzckxK8GQvxs1YHo0Kf2yHEefQMjLq2J2E5bwrlqgJk8B+LW/vUeozOgNa9soc13UQOuv5EnJs6TP1H3LpyqTnAhem0KbINXUbuKliKy/USPTNqaX6v1kFTaWs8SHO/OTnwXlqpu0BZvSp8BImLUMfVcadsl92pAnyltzoaYLhxL/JpcFZMPfg+eTGp54yusKWN0YT6ZKNhnwulsB+DKJs+0vWXmrWokfbAeB296B2YspPwX1BKjgmoccdAYsvfnKRgPbypdmHTjxEnoXk0UQ5utTboPin3raYxzITGm6obLsM+GfYYJGfJEUvU1s2w2m2bTZC1KXIuURNNzeoTIxHEILsDbU5j/e6j6+ER4jRNXiT5fSfR28PnewJUUBNxp21wEePJV19EyyuuHIdwLr0VOCq03iFiCQAIpGDvAEv6lJz5e0flUXjUpf9cTSd4d87f4sVxhcT5Mdm0V9XjxQtOJzznHPzaJk+YvraHDwhSNKKi2x6TfH9U0128=
+sidebar_class_name: "post api-method"
+info_path: docs/keephub-api/keephub-backend
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a token"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/authentication"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Provide email and password in order to receive token
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["loginName","password"],"properties":{"loginName":{"type":"string","example":"test@test.com","description":"Email for login"},"password":{"type":"string","example":"pass","description":"Password for login"}},"title":"authentication"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Succesfuly generated token","schema":{"type":"object"}},"401":{"description":"Unauthorized","schema":{"type":"object"}}}}
+>
+  
+</StatusCodes>
+
+
+      

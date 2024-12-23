@@ -1,0 +1,71 @@
+---
+id: get-contents
+title: "List contents based on filters"
+description: "List contents"
+sidebar_label: "List contents based on filters"
+hide_title: true
+hide_table_of_contents: true
+api: eJytV01z2zYQ/SsYnhXJ7iQX35zE7Xgax57Y6cX2dEBySaIGAQYA5aga/ffsLiiJEmkrauqLTAD7drH79gPLxDbgZFDWXObJWVJC+GBNABN8Mkka6WQNAZxPzu6XiTJ44lsLboF7OfjMqYYkcfV3pfGYSBcicyCDdXjCoCxu8YKH/D1JhUVDaz44ZUr8dvCtVQ5QdSG1h9XkVS1XciFSEC2iiWBFASGrhNRaZNFm8VwpXFFeKCN8kKH1IneyCEKaXBgbxAKCaNpUK1+h0o2N8exP2PdIS76xxgP6ZJn8dnJCP7tmflI+CFv0LSNsn1VQSzreabHpP5AF8rOjKAQVMYMNUveOmbZOwQ2ccSNLZThyojNpIlhURAGyADdajcpXk0SrWoX/hhpRhEffoWsZiANAsP5JNb+C6gUhNOhhBMtl6PtHOieHJDjPQouX5LOTBE2p2Wvo7OuCabrv3W0M75OgggZcq8F7WdJ/1im07ZM0ZRsXGqfmMsStMqukC7egEYm0b9fOQ3D99S7ON9bq7dcdWYI21ohMDJAhyKyqOz4U1tX4A3P8Th4HLGBLR8iy540gNEjkG0rPVQ6C5QRii92bCZiWU7F8SMA8JGfiIbkwJaWBuCOBB3S/aKz3KkVpzC0bKqSQRmGyXUgvnkFrCtLadceb1kkeY9xVFDnCvGHQDhKKVilbUFQa5SNPW6OInIyCbMeVwnFUc0yzikqM5xIDJOnXyvhukCvO/44FfZbu1hcy12hl4CMRbrC9byidwhIHZlPvSguUkHNgqKL4ZawOgzMbr3rT+uqzDapQmdzzZYpMB2kGwBdGUoxIGvViscUomh6EZxexB9f+Wa1QXcf35IOta2vWTehmmxPUG14vnOO5eZCn17yMJsnAJkllqIFkukXOUuOA7/H/rbapeI8MFNKB2LCHyeU7cpfMH4EJ71TaBvQsw8scqYFapV6IIrbMAV8n4s42mDlz0BEz9jM82zggKiLZzz9/nIhbQGvzAyevv4zQb50HL9GS4lE62zZjQi8kDzZlJ6JQ50pJxV7mu7F+RSlV6kw1io4d5O8XKMCBybgasG5y/HNl6x195BEeQGKDWdf2wzS+RPpmlCMbWnRoHQQTg/cwzAYg92QIDicYYuxs3YSysC2NItblaCB+yyzDPRQhY/ot4+B9u4TAImi1p8R123qagram9F1H7veeg7B0ql+qVptudXx5j4KHq/v9Q6JtJvWskaGafZ8tZv8+JI8/XeBJlz2CmHwemdjxhbFiyl/m/nU+Ag4zeQ75X0eq3JMb6nihgNF1R7tEGA0mbrRuhDsr/nvs19RYTS9N0+6V2/V8+je228CXfjs20n7BGQow1nOpVR4bZCGVBmyGiMDj4XouFqnNF8yC2iJJc8CCqnkEfXtyOkT+SrmLKZqjFQpnbB7TO0ohujKssmsamF5djTxG67uh1isIlY1PAhwc7TOsu3odN1S0Q84RhfvZpmmhuXOVwZSg34256nbhMdoCnLNuayeJEaFtZNbIg6H3UgiypBfXJjg0HXrIWqfCgkfcFLD1uPM2VPj5SKGOdscXHL/caCuZ9Z8fbEF8yTFtkiqExp/NZjnMp7JR0yeApmrTqbLDAd7ZvI0TTsThdjyAeYMF7hDUbaDHQLnBQeOVKWxv5k3+jNJvUpk94RwxgOj2RbdPdOnyiW4Yz5xOT09Ppidc9a0PteRJoHvv7TgcYXw34XFL9vv6lutAjIUqZl6A72HWaBwdelkZg7AbxgptobXlkrR+dXq1ouX43qXQvKh57Ik9qv0JFvvPbsyhlg5y1F7U8P8/r1+xb/Pk3tr2SB9OUb4xrXus/uPiDvPmBwqR32w=
+sidebar_class_name: "get api-method"
+info_path: docs/keephub-api/keephub-backend
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List contents based on filters"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/contents"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List contents
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","description":"Filter by creator","name":"creatsedBy","type":"string","required":false},{"in":"query","description":"May be used to fetch all content which is in status draft and not yet published","name":"status","type":"string","required":false}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"List of all contents","schema":{"type":"object","properties":{"total":{"type":"number","description":"Pagination respons, total number of results"},"limit":{"type":"number","description":"Pagination respons, result set is limited to"},"skip":{"type":"number","description":"Pagination respons, results skipped"},"data":{"type":"array","description":"Actual data","items":{"allOf":[{"type":"object","required":["title","message","originLanguage","private","orgchartSelection","orgchartAttrSelection","contentPool","contentType","images","attachments","form","event"],"properties":{"title":{"type":"object","description":"At least provide title for originLanguage e.g. {\"en\": \"English Title\"}, possible to other langages as well"},"message":{"type":"object","description":"At least provide message for originLanguage e.g. {\"en\": \"English Message\"}, possible to other langages as well"},"orgchartSelection":{"type":"array","description":"Array of organisation units selected on frontend, this is state of selection for edit of content","items":{"type":"string"},"onlineDate":{"type":"string","description":"Date when content goes live"},"offlineDate":{"type":"string","description":"Date when content goes offline"},"sendPushNotification":{"type":"boolean","description":"Enable sending push notifications for this content"}}},"title":"CommonContentsProperties"},{"type":"object","properties":{"orgchartAttrSelection":{"type":"object","description":"Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR","items":{"type":"array","items":{"type":"string"}}},"groups":{"type":"array","description":"Array of user groups that can read this content","items":{"type":"string"}},"recipient":{"type":"string","description":"Reference to user for whom this content is created"},"private":{"type":"boolean","description":"Indicate that content is private and that it needs to be addressed to you in order to access it"},"contentPool":{"type":"string","description":"Content pools where message belongs to"},"contentType":{"type":"string","description":"Type of content"},"images":{"type":"object","description":"At least provide images for originLanguage e.g. {\"en\": [\"local/path/x/y/z\"]}, possible to other langages as well"},"videos":{"type":"array","description":"Array of video references as ObjectIds","items":{"type":"string"}},"embeddedVideos":{"type":"array","description":"Array of embeddedVideos","items":{"type":"object","properties":{"lang":{"type":"string"},"type":{"type":"string"},"url":{"type":"string"}}}}}}],"title":"ContentsInput"}}},"title":"contents_list"}},"400":{"description":"Request validation failed, consult response body for more details"},"401":{"description":"User credentials not provided, invalid for the action, consult response body for more details"},"405":{"description":"Method not allowed, this method is not available for this service."},"500":{"description":"System error, consult server log"}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: update-group
+title: "Updates the resource identified by id using data."
+description: "Updates the resource identified by id using data."
+sidebar_label: "Updates the resource identified by id using data."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV01vGzkM/SvCnHYBZ5wsuhffnKZdBLvbFPk4NcFCnqE9amRpKmnsGIb/ex8l+at2nW3PzcGZkSjykXwkNcvCtuRkUNZc18Wg6NpaBvrL2a4tekUrnZxSIOeLwadloQwkWhkabBls4O0/VeOlJl851bIWrF1fCTsWE9bhRbAi6YSYrxqaymKwLMKi5dM+OGUmxapXOPrSKUeAEFxHqyde8a01njzL/3F+zv/27fiuqsh7KK6sCWQCi8i21aqKDvU/e5Zb7tiVWt+Moy8ZgR19piqwq44DEVSyl7w7lNoH8AFS7GrnySV/e0IGoUn6IKBwpmoSrEqMrRPWqYky/0gz6eSEBJWTUiwfCzKPxUA8Frc0gVapxb+QQMQfERbRWu/VSBOH0YYGZjR2cdwL6cWctObgqWlrXeDgbRCPrAUMcwD5Htub7JTiwVPNuj1xqgMlV6YSuHP+xs5OxdpAXizFFY1lp4OYSd2RUB5HTCcjmH03D5P9LaJNQJQR80ZVTTIi5nCwcgRQdcaJhTrbDU4ar2OWixWMBhU023hrp1NrIn39x21GV73XEs48fhXqdb0JXfJ0UjXShWEI7o401KrEt9OsuYnLIjSgChNXKuPhfKU7RF2aWtBLet4iLMUlsi+kIzF0Ti4YhuQHn5k1EZ1RAeQD8FEXQI+oXta1CpFVCzFWGoUs1qA3gHvi3rbg7Ix00snpVKgn1zoKKezDD1c9cUdAW78ieXMLf1Wgqd8JRBQ+sr4uf85gYtaRQ/vB27i/rbnsayWNAF1A5waw1h3hhFGwJrPIuh8wvHMoGZ5b9wznrdlj5aHh7zCPC/poS8zkH4ZTu5eLo/GEQGbRe9Tv2217fKU9vMvUi1WfYyhaLSuasoJEeqaaf2/dcMMuNiCr8D+iuDki1opSEDmd3NO8mhhuSDGJuREorcUIpZH74FiBhWgWVTZaipu1Ki4QemlRREjIXKFk0DOVEwyCsGgqOklDnjvrVpKayE0X2i7kkL45vzicQsaizjrYMYHnDrpwlHxzXHJsOxMl/jw20SZkMIy1IOesixTd33+Ik5RDRuC6t52r0DdrNj1WcHmEkqwRS7gjIClLeBvkhKf3usDgoaeqcyos4hwcEYLmhnAAr09p8H7pyIdLW0du7U/mH5i124Of0jyF7l/z99f8jak8rLRrsy003Dkby9dRXuqlK+eg6Cfv+0sM6xVfJ8nN1lfTzmlINCG0ftDv1zQrZavKZ6K26UalsgduA13dxQEokp4I8kDNmayq11TdocS44tZ64BpXw+22jt69yGmraYfZe6xJhfVt4naavTJjGzOZI/Z3AnM2ktUz+toBorwv8j7XQi4gDliSuSgvLs7Lc1YPlgcQaAvvpxrNHoTltk/8XNdKbAn0EvqYP/jyAM6YnWWmw6aj9YoB394Q9QZ+8MZyOZKeHpxerXgZaXDc7PA4k07xHImcqZXnZyRgLLWnEx78dpt72e/iux83RxGvh6HhURiLFW94fKZF/nhaPUGswb0FzGFQaSdP7DNuFzsnDxouczadGOJbqA0nZZ92Cuvjwz1kR7nHT23NR5ycY5F/I0gbIxH7cVxLd5VMzqSS/74C+IwD5g==
+sidebar_class_name: "put api-method"
+info_path: docs/keephub-api/keephub-backend
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Updates the resource identified by id using data."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/groups/{_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Updates the resource identified by id using data.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"_id","description":"ID of groups to update","schema":{"type":"string"},"required":true}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"required":["name"],"allOf":[{"type":"object","properties":{"name":{"type":"object","description":"Name of user group, at least provide name for originLanguage e.g. {\"en\": \"Regional Mangers\"}, possible to other langages as well"},"imported":{"type":"boolean","description":"Type of group. Used to separate user made groups from imported groups. Default value is manual"},"originLanguage":{"type":"string","description":"Language in which group was created. Used as default translation"}},"title":"CommonGroupsProperties"},{"type":"object"}],"title":"GroupsInput"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"success","content":{"application/json":{"schema":{"allOf":[{"type":"object","properties":{"name":{"type":"object","description":"Name of user group, at least provide name for originLanguage e.g. {\"en\": \"Regional Mangers\"}, possible to other langages as well"},"imported":{"type":"boolean","description":"Type of group. Used to separate user made groups from imported groups. Default value is manual"},"originLanguage":{"type":"string","description":"Language in which group was created. Used as default translation"}},"title":"CommonGroupsProperties"},{"type":"object","properties":{"_id":{"type":"string","description":"Id of group"},"orgchartAttrSelection":{"type":"object","description":"Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR","items":{"type":"array","items":{"type":"string"}}},"groups":{"type":"array","description":"Array of user groups that can read this content","items":{"type":"string"}},"translators":{"type":"array","description":"Array of translators that worked on translation","items":{"type":"object","properties":{"lang":{"type":"string"},"createdAt":{"type":"string"},"createdBy":{"type":"string"}}}},"excludeFromContent":{"type":"boolean","description":"Exclude from content placement"},"orgunitsForAdditionalContacts":{"type":"array","description":"Additional orgunits that users assign to this group will be able to find in contacts. Orgunits are expanded with their descendence","items":{"type":"string"}}}}],"title":"GroupsOutput"}}}},"401":{"description":"not authenticated"},"404":{"description":"not found"},"500":{"description":"general error"}}}
+>
+  
+</StatusCodes>
+
+
+      

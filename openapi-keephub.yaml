@@ -1,0 +1,1006 @@
+info:
+  title: Keephub-backend
+  description: Keephub backend project
+  version: 1.110.0
+servers:
+  - url: https://dev.api.keephub.io
+    description: Production server
+  - url: https://dev-acc.api.keephub.io
+    description: Staging server  
+schemes:
+  - http
+  - https
+security:
+  - bearerAuth: []
+components:
+  schemas:
+    authentication:
+      type: object
+      required:
+        - loginName
+        - password
+      properties:
+        loginName:
+          type: string
+          example: test@test.com
+          description: Email for login
+        password:
+          type: string
+          example: pass
+          description: Password for login
+    CommonContentsProperties:
+      type: object
+      required:
+        - title
+        - message
+        - originLanguage
+        - private
+        - orgchartSelection
+        - orgchartAttrSelection
+        - contentPool
+        - contentType
+        - images
+        - attachments
+        - form
+        - event
+      properties:
+        title:
+          type: object
+          description: 'At least provide title for originLanguage e.g. {"en": "English Title"}, possible to other langages as well'
+        message:
+          type: object
+          description: 'At least provide message for originLanguage e.g. {"en": "English Message"}, possible to other langages as well'      
+        orgchartSelection:
+          type: array
+          description: Array of organisation units selected on frontend, this is state of selection for edit of content
+          items:
+            type: string
+          onlineDate:
+            type: string
+            description: Date when content goes live
+          offlineDate:
+            type: string
+            description: Date when content goes offline
+          sendPushNotification:
+            type: boolean
+            description: Enable sending push notifications for this content  
+    ContentsOutput:
+      allOf:
+        - $ref: '#/components/schemas/CommonContentsProperties'
+        - type: object
+          properties:
+            orgunits:
+              type: array
+              description: Array of organisation units this messge belongs to, this array is populated by server based on orgchartSelection
+              items:
+                type: string     
+            notificationsCreated:
+              type: boolean
+              description: Tells if notifications for content are created
+            edited:
+              type: boolean
+              description: If content data (title, message, poll data) were changed.     
+            notifyNew:
+              type: boolean
+              description: Flag that marks to send notification that new content has been added
+            notifyUpdated:
+              type: boolean
+              description: Flag that marks to send notification that the content has been updated
+            event:
+              type: object
+              description: Event related data
+              properties:
+                startDate:
+                  type: string
+                  description: Date when event is about to start
+                endDate:
+                  type: string
+                  description: Date when event is about to end
+                widgets:
+                  type: array
+                  description: What mini widgets should be shown on event detail page
+                  items:
+                    type: string
+            originLanguage:
+              type: string
+              description: Language in which content was created. Used as default translation
+            translators:
+              type: array
+              description: Array of translators (users) that worked on content
+              items:
+                type: object
+                properties:
+                  lang:
+                    type: string
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+            videoProcessing:
+              type: boolean
+              description: Indicate that Video attach to this record is still in processing
+            attachments:
+              type: object
+              description: 'At least provide attachments for originLanguage e.g. {"en": []}, possible to other langages as well'
+            tags:
+              type: array
+              description: Array of tags, assign by content
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  text:
+                    type: string
+            relatedTags:
+              type: array
+              description: Array of tags related to this content, used for Event to pull taged content to the page, in order to submit new relevant tag, just provide new object without _id e.g. {text:TagName}
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  text:
+                    type: string
+            social:
+              type: object
+              description: Social data
+              properties:
+                reactionsEnabled:
+                  type: boolean
+                  description: Enable reactions on this message
+                commentsEnabled:
+                  type: boolean
+                  description: Enable comments on this message
+                reactionCounts:
+                  type: object
+                  description: Count per reaction on content (Managed by server and can not be changed from client)
+                commentCount:
+                  type: integer
+                  description: Number of L1 comments on content (Managed by server and can not be changed from client)
+                comments:
+                  type: array
+                  description: List of L1 comments on content (Managed by server and can not be changed from client)
+                  items:
+                    type: object
+            viewsCount:
+              type: integer
+              description: Number of views on content (Managed by server and can not be changed from client)
+            originalReach:
+              type: integer
+              description: Original reach number when content was created (Unchangable)
+            poll:
+              type: object
+              description: Poll data
+              properties:
+                options:
+                  type: array
+                  description: Poll options
+                  items:
+                    type: object
+                    description: Poll option
+                    properties:
+                      optId:
+                        type: string
+                      index:
+                        type: integer
+                      text:
+                        type: string
+                      image:
+                        type: string
+            form:
+              type: object
+              description: Form related data
+              properties:
+                active:
+                  type: boolean
+                  description: Flag that marks if form is active or not
+                confidential:
+                  type: boolean
+                  description: Flag that marks if form is confidential
+                confidants:
+                  type: array
+                  description: List of confidants, only confidants can access form results if form is confidental
+                  items:
+                    type: string
+                emails:
+                  type: array
+                  description: Array of emails to send this form to
+                  items:
+                    type: string
+                hookurl:
+                  type: string
+                  description: URL of the webhook which will be called when user submits the form values
+                fields:
+                  type: array
+                  description: Form fields
+                  items:
+                    type: object
+                    description: Form field
+            folder:
+              type: string
+              description: Id of folder to which this content may belong to -> applicable only for manuals and faq content types
+            approval:
+              type: object
+              description: Approval Flow related data
+              properties:
+                status:
+                  type: string
+                  description: Status of approval
+                reviewedAt:
+                  type: string
+                  description: Field populated by system, timestamp of review
+                reviewedBy:
+                  type: string
+                  description: Field populated by system, reference to user who did review of content (approved or rejected)
+            training:
+              type: object
+              description: Training related data
+              properties:
+                lessons:
+                  type: array
+                  description: List of lessons for this tnings
+                  items:
+                    type: string
+                ownCompleted:
+                  type: array
+                  description: Populated by backend, no need to send it, list of lessons that current user has completed
+                  items:
+                    type: string
+            mentions:
+              type: array
+              description: Array of yours that are mentioned using @ in message section of contents
+              items:
+                type: string
+            createdBy:
+              type: string
+              description: Field populated by system, reference to user who created content
+            createdAt:
+              type: string
+              description: Field populated by system, timestamp of creation
+            updatedBy:
+              type: string
+              description: Field populated by system, reference to user who updated content
+            updatedAt:
+              type: string
+              description: Field populated by system, timestamp of last update
+    ContentsInput:
+      allOf:
+        - $ref: '#/components/schemas/CommonContentsProperties'
+        - type: object
+          properties:
+            orgchartAttrSelection:
+              type: object
+              description: Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR
+              items:
+                type: array
+                items:
+                  type: string
+            groups:
+              type: array
+              description: Array of user groups that can read this content
+              items:
+                type: string
+            recipient:
+              type: string
+              description: Reference to user for whom this content is created
+            private:
+              type: boolean
+              description: Indicate that content is private and that it needs to be addressed to you in order to access it
+            contentPool:
+              type: string
+              description: Content pools where message belongs to
+            contentType:
+              type: string
+              description: Type of content
+
+            images:
+              type: object
+              description: 'At least provide images for originLanguage e.g. {"en": ["local/path/x/y/z"]}, possible to other langages as well'
+            videos:
+              type: array
+              description: Array of video references as ObjectIds
+              items:
+                type: string
+            embeddedVideos:
+              type: array
+              description: Array of embeddedVideos
+              items:
+                type: object
+                properties:
+                  lang:
+                    type: string
+                  type:
+                    type: string
+                  url:
+                    type: string
+    contents_list:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Pagination respons, total number of results
+        limit:
+          type: number
+          description: Pagination respons, result set is limited to
+        skip:
+          type: number
+          description: Pagination respons, results skipped
+        data:
+          type: array
+          description: Actual data
+          items:
+            $ref: '#/components/schemas/ContentsInput'
+    contents_pagination:
+      title: contents pagination result
+      type: object
+      properties:
+        total:
+          type: integer
+        limit:
+          type: integer
+        skip:
+          type: integer
+        data:
+          $ref: '#/components/schemas/contents_list'
+    CommonGroupsProperties:
+      type: object
+
+      properties:
+        name:
+          type: object
+          description: 'Name of user group, at least provide name for originLanguage e.g. {"en": "Regional Mangers"}, possible to other langages as well'
+        imported:
+          type: boolean
+          description: Type of group. Used to separate user made groups from imported groups. Default value is manual
+        originLanguage:
+          type: string
+          description: Language in which group was created. Used as default translation
+    GroupsOutput:
+      allOf:
+        - $ref: '#/components/schemas/CommonGroupsProperties'
+        - type: object
+          properties:
+            _id:
+              type: string
+              description: Id of group
+            orgchartAttrSelection:
+              type: object
+              description: Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR
+              items:
+                type: array
+                items:
+                  type: string
+            groups:
+              type: array
+              description: Array of user groups that can read this content
+              items:
+                type: string
+            translators:
+              type: array
+              description: Array of translators that worked on translation
+              items:
+                type: object
+                properties:
+                  lang:
+                    type: string
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+            excludeFromContent:
+              type: boolean
+              description: Exclude from content placement
+            orgunitsForAdditionalContacts:
+              type: array
+              description: Additional orgunits that users assign to this group will be able to find in contacts. Orgunits are expanded with their descendence
+              items:
+                type: string
+    GroupsInput:
+      required:
+        - name
+      allOf:
+        - $ref: '#/components/schemas/CommonGroupsProperties'
+        - type: object
+    groups_list:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Pagination respons, total number of results
+        limit:
+          type: number
+          description: Pagination respons, result set is limited to
+        skip:
+          type: number
+          description: Pagination respons, results skipped
+        data:
+          type: array
+          description: Actual data
+          items:
+            $ref: '#/components/schemas/GroupsOutput'
+paths:
+  /authentication:
+    post:
+      operationId: getToken
+      responses:
+        '201':
+          description: Succesfuly generated token
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+      description: Provide email and password in order to receive token
+      summary: Get a token
+      tags:
+        - authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authentication'
+  /contents:
+    get:
+      operationId: getContents
+      parameters:
+        - in: query
+          description: Filter by creator
+          name: creatsedBy
+          type: string
+          required: false
+        - in: query
+          description: May be used to fetch all content which is in status draft and not yet published
+          name: status
+          type: string
+          required: false
+      responses:
+        '200':
+          description: List of all contents
+          schema:
+            $ref: '#/components/schemas/contents_list'
+        '400':
+          description: Request validation failed, consult response body for more details
+        '401':
+          description: User credentials not provided, invalid for the action, consult response body for more details
+        '405':
+          description: Method not allowed, this method is not available for this service.
+        '500':
+          description: System error, consult server log
+      description: List contents
+      summary: List contents based on filters
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+    post:
+      operationId: addContents
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsOutput'
+        '401':
+          description: not authenticated
+        '500':
+          description: general error
+      description: Create new content
+      summary: Create new content
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsInput'
+  /contents/{_id}:
+    get:
+      operationId: getContentsById
+      parameters:
+        - in: path
+          name: _id
+          description: ID of contents to return
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsInput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Get a single content
+      summary: Get a single content
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+    put:
+      operationId: updateContentsById
+      parameters:
+        - in: path
+          name: _id
+          description: ID of contents to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsInput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Update content
+      summary: Update content
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsInput'
+    patch:
+      operationId: updateContentsById
+      parameters:
+        - in: path
+          name: _id
+          description: ID of contents to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsInput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Update content
+      summary: Update content
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentsInput'
+    delete:
+      operationId: removeContentsById
+      parameters:
+        - in: path
+          name: _id
+          description: ID of contents to remove
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsInput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Remove content
+      summary: Remove content
+      tags:
+        - contents
+      security:
+        - bearerAuth: []
+  /groups:
+    get:
+      operationId: getGroups
+      parameters:
+        - in: query
+          description: Number of results to return
+          name: $limit
+          type: integer
+          required: false
+        - in: query
+          description: Number of results to skip
+          name: $skip
+          type: integer
+          required: false
+        - in: query
+          description: Property to sort results
+          name: $sort
+          type: string
+          required: false
+        - in: query
+          description: Select list of fields for results
+          name: $select[]
+          collectionFormat: multi
+          type: array
+          required: false
+          items:
+            type: string
+        - in: query
+          description: Disable translation filter for this service (if present)
+          name: disableTranslationsFilter
+          type: boolean
+          required: false
+        - in: header
+          description: Language for group name
+          name: lang
+          type: string
+          required: false
+        - in: query
+          description: Filter by excludeFromContent boolean flag
+          name: excludeFromContent
+          type: boolean
+          required: false
+      responses:
+        '200':
+          description: List of all groups
+          schema:
+            $ref: '#/components/schemas/GroupsOutput'
+        '400':
+          description: Request validation failed, consult response body for more details
+        '401':
+          description: User credentials not provided, invalid for the action, consult response body for more details
+        '405':
+          description: Method not allowed, this method is not available for this service.
+        '500':
+          description: System error, consult server log
+      description: Get all user groups in system
+      summary: List groups
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+    post:
+      operationId: addGroup
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
+        '401':
+          description: not authenticated
+        '500':
+          description: general error
+      description: Creates a new resource with data.
+      summary: Creates group
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupsInput'
+  /groups/{_id}:
+    get:
+      operationId: getGroup
+      parameters:
+        - in: path
+          name: _id
+          description: ID of groups to return
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Get single user groups in system by id
+      summary: Get single user groups in system by id
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+    put:
+      operationId: updateGroup
+      parameters:
+        - in: path
+          name: _id
+          description: ID of groups to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Updates the resource identified by id using data.
+      summary: Updates the resource identified by id using data.
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupsInput'
+    patch:
+      operationId: patchGroup
+      parameters:
+        - in: path
+          name: _id
+          description: ID of groups to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Updates the resource identified by id using data.
+      summary: Updates the resource identified by id using data.
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupsInput'
+    delete:
+      operationId: removeGroup
+      parameters:
+        - in: path
+          name: _id
+          description: ID of groups to remove
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Removes the resource with id.
+      summary: Removes the resource with id.
+      tags:
+        - groups
+      security:
+        - bearerAuth: []
+openapi: 3.0.3
+tags:
+  - name: authentication
+    description: Log me up
+  - name: tasktemplates
+    description: |-
+      A service for tasktemplates (Periodic,Child,Single), if you execute qurey without parent reference you will receive all
+          tasktemplates created by you that are not children of some other periodic tasktemplate (or in case you are admin all of them) 
+          If you provide reference to parent tasktemplate then search is limited only on child tasktemplates. 
+          If you need additional brakedown of progress use special parameters
+  - name: tasktemplatesview
+    description: View with same output as tasktemplates, only find and get are possible
+  - name: tasks
+    description: |-
+      A service for tasks (Personal tasks), if you execute query without Tasktemplate reference you will receive all personal tasks assigned to you, if you provide 
+          tasktemplate reference then you fill receive all personal task you have created based on that template (you need to be admin or creator of temaplte).
+  - name: navigation
+    description: A service for navigation, only single row is used all the time
+  - name: groups
+    description: A service for user groups/roles
+  - name: users
+    description: A service for system users
+  - name: contentpools
+    description: A service for system content pools, only metadata is handled by this service
+  - name: contents
+    description: A service for content, content belongs in certain content pool, only data is handled by this service if you provide only title/message attribute same content will be used for all available languages
+  - name: orgchart
+    description: A service for Organisation chart, only patch is allowed for administrators and supervisors and they can not change structure of chart.
+  - name: authManagement
+    description: Auth Management service
+  - name: translations
+    description: A service for getting client specific translations overrides
+  - name: orgtypes
+    description: A service for metadata for Organisation chart, Get and find are allowed for all, system user can do rest of operations
+  - name: reactions
+    description: A service for reactions on content (news) and comments, edit of reaction is not possible.
+  - name: comments
+    description: A service for comments on content (news), formvalue and comments on comments. Only Level1 and Level 2 comments are allowed
+  - name: notifications
+    description: A service for notifications
+  - name: votes
+    description: A service for votes on polls, edit of vote is not possible.
+  - name: version
+    description: A service for getting application version information.
+  - name: configs
+    description: A service for getting client specific configuration
+  - name: pushsubscriptions
+    description: A service for subscribing device to push messages, subscription is actibe if loggedOn=true and pushPermission=true
+  - name: authchat
+    description: DEPRECATED Authenticate user to chat service
+  - name: pushmessages
+    description: A service for creating messages for quickblox.
+  - name: pushmessagesqueue
+    description: A service handling messages queue entries
+  - name: formvalues
+    description: A service for creating user values for particular form.
+  - name: permissions
+    description: A service for handling permissions
+  - name: roles
+    description: A service for handling roles
+  - name: signurl
+    description: A service for signed urls for downloading of attachments, videos and data sent to external plugins
+  - name: contentviews
+    description: A service for views on content, edit of view is not possible.
+  - name: blacklisttoken
+    description: A service for otes on polls, edit of vote is not possible.
+  - name: search
+    description: |-
+      A service for performing various searches, for now valid types are: [contents,contacts,anniversary,externalcontents,folders,all]
+                        , sort param is not working for now (it is added by default)
+  - name: levels
+    description: A service for handling levels
+  - name: rewards
+    description: A service for handling rewards
+  - name: badges
+    description: A service for handling usersrewards
+  - name: usersrewards
+    description: A service for handling usersrewards
+  - name: translate
+    description: A service for translating using google translation
+  - name: userspointsbalances
+    description: A service for handling users points userCoinsBalanceEntries
+  - name: attachmentdetails
+    description: Attachment details service, used by Lambda trigger. This is not service for upload of attachments!
+  - name: awstrigger
+    description: A service for AWS triggers, for now we have two triggers [pdfConvertedToTxt,videoResized]
+  - name: chatgroups
+    description: A service for TalkJS chat groups that are created from external source
+  - name: tags
+    description: A service for tags, tags have type based on entity that is taged, for now deafult type is "content"
+  - name: exports
+    description: A service for exporting content and tasks results (e.g.polls,forms,taks) in csv or xlsx format (if not specified, defaults to csv)
+  - name: contentpooltypes
+    description: A service for system content pool types, type is providing initial settings for content pool
+  - name: orgattributes
+    description: A service for Org Chart Attributes
+  - name: orgattributecategories
+    description: A service for Org Chart Attributes
+  - name: talkjshook
+    description: |-
+      A service for TalkJS webhook, special authentication via signature is required!. 
+       Use https://www.freeformatter.com/hmac-generator.html to generate signature SHA256([timestamp]+"."+[jsonPayloadWithoutWhiteSpace]). 
+       Timestamp has timeout period of 5min
+  - name: folders
+    description: A service for folders, other items in the system can be attached to folders structure, for now only manuals, form and faq contents are.
+  - name: loginoptions
+    description: Providing login options to user based on loginname, public service
+  - name: impersonate
+    description: Service for impersonation of users, you need permission of administrator to do this
+  - name: reach
+    description: A service for calculating reach of current user based on selected filters for content/tasks/navigation
+  - name: workflow
+    description: A service for workflows, for now we have content approval workflow approveContent,rejectContent,approveTaskAnswer,rejectTaskAnswer
+  - name: drive
+    description: A service for KeepHub drive, drive needs to be configured first in order for it to work
+  - name: marketplace
+    description: Marketplace plugins for navigation (pages and widgets)
+  - name: reports
+    description: A service for generating different kind of reports
+  - name: chat
+    description: New general chat service for authenticating users to chat and other operations related to chat
+  - name: externalcontacts
+    description: A service for handling external contacts
+  - name: lessons
+    description: A service for traning lessons
+  - name: lessonsubmissions
+    description: A service for training lesson submissions
+  - name: themes
+    description: A service for handling themes
+  - name: maintenance
+    description: Maintenance service (can only be called by system user)
+  - name: trainingprogress
+    description: A service for traning progress
+  - name: videos
+    description: A service for videos, internal service for upload of videos
+  - name: contentflows
+    description: A service for automatic content flows
+  - name: contenttemplates
+    description: A service for content template, cron job makes call for content generation
+  - name: translationservice
+    description: A service for adding/editing translations for content/task
+  - name: feed
+    description: A service for handling external RSS feed
+  - name: eventattendees
+    description: A service for tracking event attendees, and their status
+  - name: systemtasks
+    description: A service for handling systemtasks
+  - name: keymetrics
+    description: A service for calculating needed data for key metrics
+  - name: healthcheck
+    description: A service for checking health status for redis and mongodb
+  - name: sentimentanalysis
+    description: An internal service for sentiment analysis.
+  - name: contentsview
+    description: View with same output as tasktemplates, only find and get are possible
+  - name: pages
+    description: A service for navigation, only single row is used all the time
+  - name: widgets
+    description: A service for navigation, only single row is used all the time
+  - name: download
+    description: A service for download pages
+  - name: activitylogs
+    description: A service for activitylog, FE calls POST method with empty body and the service will insert data about user activity and will also update the lastActivity field in users collection
+  - name: pushnotificationsettings
+    description: A service for getting client specific translations overrides for push notifications

@@ -1,0 +1,71 @@
+---
+id: get-groups
+title: "List groups"
+description: "Get all user groups in system"
+sidebar_label: "List groups"
+hide_title: true
+hide_table_of_contents: true
+api: eJylV01v2zgQ/SuEsIddwHWSxfaSW9o0QbHbpsjHqQkWtDSWuaFElaSSGEb++74hKcuObMdBTrYoat7jzJtHcpGZhqz0ytRfi+w4K8mfW9M2LhtljbSyIk/WZcc/F5mq8f5XS3aOdwW53KqGv8Po97aakBVmKiy5VnsnvMFf39oac2tEwaTftKqUx7OfN/ysak8lWQxY+tUqS8CfSu3oefR2MHevmhWo9PhOpB+Wk+PnAcBY3wGuAmG4B3Leqrp8M84Vacq90Mp5XtZUkS6cmBq7CTDM/XmHodxo/o8YZ8ZW0uN1hdmq5yOtlfMhnVGmPFWo6uIF8edXiJ4qJyeahLeydjqoBmw1JBLY+plywpF9UDmJ39VUNOBPtf+j51/ECNd9AHcWAvSkJ8ZokvWOLM5IFuGLdXb/yLpsZUmBS8kqFgF1Ca5lKM77ihXpislc0FOu24LOrKk+G0is9iJxF1Mtyx53OHGf1d7xkGuQIQql+vPwkH9erDlpRmodl8xacfmMKsmTMXwxDd2b4MzkP0iGmztqW8XYkehw1ovOwywGa1HjiDYSErolCRII+KAKCikPFTBWlapeFoXG5VgsbjOqb7NjcZtdUomoUotvmAGPuc2eR6IxzqmgMCOMnwGGa4bPnZBOPJLWmJWpqkHbcaYWwzSuU77Ga6Yc2I7FjaMidDOxuXmKS6kgp5Q9MUWRRAeQBsfilKYSrSUepG5JQOWVrFsZyKwvc9hTW1WqavE4U/ksSfURC8wtgVSReGKgSLgrDcdNmnnlNWN8NlVl6ujYP/qKsoR3F/xfVbxO9WuxTF1caZnPpPUn3ttoWWHaa6q5CMMwB0glh/ylqh0WH1pCyLro+kj0DMfiE6ovpCVxwhYWFM5/XFJWKdpaeYgPxCethzxCeFkUygdVzTtf6kgvCY/EtWmg2QfSMSaXk3cIC7fyMe0n309H4orAtnhl5sVlNnTTzna3uiySmZp1+NF68pbL73surTWHzUAuRXTdfOkr260961Rk7BuAVz6KwI/G3mPxsP5VVQ6BtygvmPCQHrazKP4Tv+vtp/nGfGLCBpN93R6+JOmFrk85FI2WOVUcIIqepeawxZ4s1cUAMvd7ZHH5iegCxSRyOdnTnCprNqRQxGQECl4+QWskH5wqqBBmkSfQsbjoQnGD0FODJkJBHhVaBp6prGAShME6p50y5D2ms5JoIhetb1of1PLXpv3mEpsUuWCEqkgHAKk0FSPmx4cV0W1a2AyLeejXyoBnQeh8zd6EyEfDyDcscFQZrL3CBihqs9xUEF3VATKdM5Cd1MxvQf04RP1GfmaKgIW90jwyVKhFFV+oyEM+IEooyMtzzphDf9yUqqu5Q+IFWWtsz5M/423NxJZc/+ScAo21ZkflXYjEZwZZ8lm8Mw9Uz1HeWuXnYY+fEARhT1o/w+MdFzeuIp7rw4meX2UH/UkhsInn+9ZqPlt537jjg4OCHsayUeN7ombWTsbKbDoeF20oQ1pV2HcGYT7IPH8t1BVWBk0u44C6qqcmiDbp8+/49YeJzO+h7UGI9F6k9yyd5D+8wjjnaHx0dDg+5JLhpOGxifeHn3iUWmZmLfgi6/x1jxrFJvP05A/gJDhJAi0kZZHyv1q/GWjwyGIxkY5urH5+5uF49OSqbOWx+861kcU9zVfvYeEwg4FQtrfhrN+vNqKkKfuB7Lhp7cSIt6/9MPa5Ze0E629e+wG+47a0g8euG9R+vN5yg9lBZOOtpmdwxw9WMdfgRqPu2hZUHRfRX0i3kt1+qdtBLV301sgsrfD8yzWs93/b4PNm
+sidebar_class_name: "get api-method"
+info_path: docs/keephub-api/keephub-backend
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List groups"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/groups"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get all user groups in system
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","description":"Number of results to return","name":"$limit","type":"integer","required":false},{"in":"query","description":"Number of results to skip","name":"$skip","type":"integer","required":false},{"in":"query","description":"Property to sort results","name":"$sort","type":"string","required":false},{"in":"query","description":"Select list of fields for results","name":"$select[]","collectionFormat":"multi","type":"array","required":false,"items":{"type":"string"}},{"in":"query","description":"Disable translation filter for this service (if present)","name":"disableTranslationsFilter","type":"boolean","required":false},{"in":"header","description":"Language for group name","name":"lang","type":"string","required":false},{"in":"query","description":"Filter by excludeFromContent boolean flag","name":"excludeFromContent","type":"boolean","required":false}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"List of all groups","schema":{"allOf":[{"type":"object","properties":{"name":{"type":"object","description":"Name of user group, at least provide name for originLanguage e.g. {\"en\": \"Regional Mangers\"}, possible to other langages as well"},"imported":{"type":"boolean","description":"Type of group. Used to separate user made groups from imported groups. Default value is manual"},"originLanguage":{"type":"string","description":"Language in which group was created. Used as default translation"}},"title":"CommonGroupsProperties"},{"type":"object","properties":{"_id":{"type":"string","description":"Id of group"},"orgchartAttrSelection":{"type":"object","description":"Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR","items":{"type":"array","items":{"type":"string"}}},"groups":{"type":"array","description":"Array of user groups that can read this content","items":{"type":"string"}},"translators":{"type":"array","description":"Array of translators that worked on translation","items":{"type":"object","properties":{"lang":{"type":"string"},"createdAt":{"type":"string"},"createdBy":{"type":"string"}}}},"excludeFromContent":{"type":"boolean","description":"Exclude from content placement"},"orgunitsForAdditionalContacts":{"type":"array","description":"Additional orgunits that users assign to this group will be able to find in contacts. Orgunits are expanded with their descendence","items":{"type":"string"}}}}],"title":"GroupsOutput"}},"400":{"description":"Request validation failed, consult response body for more details"},"401":{"description":"User credentials not provided, invalid for the action, consult response body for more details"},"405":{"description":"Method not allowed, this method is not available for this service."},"500":{"description":"System error, consult server log"}}}
+>
+  
+</StatusCodes>
+
+
+      
