@@ -4,6 +4,7 @@ yarn.lock
 
 # Production
 /build
+/docs
 
 # Generated files
 .docusaurus

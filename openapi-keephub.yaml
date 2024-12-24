@@ -419,6 +419,183 @@ components:
           description: Actual data
           items:
             $ref: '#/components/schemas/GroupsOutput'
+    CommonUsersProperties:
+      type: object
+      required:
+        - name
+        - loginName
+        - email
+        - password
+        - groups
+        - regions
+      properties:
+        name:
+          type: string
+          description: User full name
+        firstName:
+          type: string
+          description: User first name
+        insertion:
+          type: string
+          description: User insertion
+        lastName:
+          type: string
+          description: User last name
+        email:
+          type: string
+          description: Email for user, must be unique
+        loginName:
+          type: string
+          description: Login name for user. It is lowercase value of email field. It is automatically assigned
+    UsersInput:
+      required:
+        - name
+      allOf:
+        - $ref: '#/components/schemas/CommonUsersProperties'
+        - type: object    
+    UsersOutput:
+      required:
+        - name
+      allOf:
+        - $ref: '#/components/schemas/CommonUsersProperties'
+        - type: object    
+          properties:
+            loginMethod:
+              type: string
+              description: Login method for user. only system user can change this
+            createdBy:
+              type: string
+              description: Field populated by system, reference to user who created user
+            createdAt:
+              type: string
+              description: Field populated by system, timestamp of creation
+            updatedBy:
+              type: string
+              description: Field populated by system, reference to user who updated user
+            updatedAt:
+              type: string
+              description: Field populated by system, timestamp of last update
+    users:
+      type: object
+      required:
+        - name
+        - loginName
+        - email
+        - password
+        - groups
+        - regions
+      properties:
+
+
+        personalInfo:
+          type: string
+          description: Personal information that user puts for himself
+        password:
+          type: string
+          description: Hashed password for user, for create password is sent in pain text form
+        passwordExpires:
+          type: string
+          description: Date when password expires
+        permanentPassword:
+          type: boolean
+          description: Flag that password is expiration mechinsm is disabled for this project
+        firstLoginDone:
+          type: boolean
+          description: Flag that tells us if user has logged in system for the first time
+        profilePicture:
+          type: string
+          format: byte
+          description: User profile picture S3 path
+        organisation:
+          type: string
+          description: Organisation name
+        position:
+          type: string
+          description: Position (function) in organisation
+        preferredLanguage:
+          type: string
+          description: User's prefred language
+        employeeID:
+          type: string
+          description: User's employeeID
+        level:
+          type: string
+          description: User's current level
+        dob:
+          type: string
+          description: Date of birth
+        phone:
+          type: string
+          description: Phone number
+        active:
+          type: boolean
+          description: Is this account active or not
+        privateEmail:
+          type: string
+          description: Private email, this field is only vissible to profile owner and system
+        privatePhone:
+          type: string
+          description: Private phone number, this field is only vissible to profile owner and system
+        orgunits:
+          type: array
+          description: Array of orgunits user belongs to
+          items:
+            type: string
+        groups:
+          type: array
+          description: Array of groups user belongs to
+          items:
+            type: string
+        roles:
+          type: array
+          description: Array of roles user belongs to
+          items:
+            type: string
+        excludeFromContacts:
+          type: boolean
+          description: Should this user be excluded from search results in contacts
+        excludeFromTasks:
+          type: boolean
+          description: Should this user be excluded from task creation
+        ghost:
+          type: boolean
+          description: Should this user be excluded from reach and view content count
+        subdomain:
+          type: string
+          description: subdomain for request, in case there are multiple configs please match based on current subdomain
+        customAttributes:
+          type: object
+          description: Custom attributes
+
+    users_list:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Pagination respons, total number of results
+        limit:
+          type: number
+          description: Pagination respons, result set is limited to
+        skip:
+          type: number
+          description: Pagination respons, results skipped
+        data:
+          type: array
+          description: Actual data
+          items:
+            $ref: '#/components/schemas/users'
+    users_pagination:
+      title: users pagination result
+      type: object
+      properties:
+        total:
+          type: integer
+        limit:
+          type: integer
+        skip:
+          type: integer
+        data:
+          $ref: '#/components/schemas/users_list'
 paths:
   /authentication:
     post:
@@ -471,7 +648,7 @@ paths:
         '500':
           description: System error, consult server log
       description: List contents
-      summary: List contents based on filters
+      summary: List contents
       tags:
         - contents
       security:
@@ -672,8 +849,10 @@ paths:
       responses:
         '200':
           description: List of all groups
-          schema:
-            $ref: '#/components/schemas/GroupsOutput'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsOutput'
         '400':
           description: Request validation failed, consult response body for more details
         '401':
@@ -738,7 +917,7 @@ paths:
         '500':
           description: general error
       description: Get single user groups in system by id
-      summary: Get single user groups in system by id
+      summary: Get a group
       tags:
         - groups
       security:
@@ -766,7 +945,7 @@ paths:
         '500':
           description: general error
       description: Updates the resource identified by id using data.
-      summary: Updates the resource identified by id using data.
+      summary: Update a group.
       tags:
         - groups
       security:
@@ -799,8 +978,8 @@ paths:
           description: not found
         '500':
           description: general error
-      description: Updates the resource identified by id using data.
-      summary: Updates the resource identified by id using data.
+      description: Updates the group identified by id using data.
+      summary: Update a group.
       tags:
         - groups
       security:
@@ -833,10 +1012,276 @@ paths:
           description: not found
         '500':
           description: general error
-      description: Removes the resource with id.
-      summary: Removes the resource with id.
+      description: Removes the group with id.
+      summary: Remove a group
       tags:
         - groups
+      security:
+        - bearerAuth: []
+  /users:
+    get:
+      operationId: getUsers
+      parameters:
+        - in: query
+          description: Number of results to return
+          name: $limit
+          type: integer
+          required: false
+        - in: query
+          description: Number of results to skip
+          name: $skip
+          type: integer
+          required: false
+        - in: query
+          description: Property to sort results
+          name: $sort
+          type: string
+          required: false
+        - in: query
+          description: Select list of fields for results
+          name: $select[]
+          collectionFormat: multi
+          type: array
+          required: false
+          items:
+            type: string
+        - in: query
+          description: Disable translation filter for this service (if present)
+          name: disableTranslationsFilter
+          type: boolean
+          required: false
+        - in: query
+          description: Indicates this is count query not object query
+          name: count
+          type: boolean
+          required: false
+        - in: query
+          description: |-
+            Used only for count query to determine type of count.
+
+                       contentReach count of users that will be reached by content placement, possible filters are (orgunits for expansion, groups, orgtype, attributes and firstLoginDone) 
+
+
+                       orgUnitBelong - count users belonging directly to selected orgunit(s) (filter based on current user and preset), rest of filters are ignored
+          name: countType
+          type: string
+          required: false
+        - in: query
+          description: Limit serch for certain user groups
+          name: groups
+          type: string
+          required: false
+        - in: query
+          description: Limit serch for certain user orgunit
+          name: orgunits
+          type: string
+          required: false
+        - in: query
+          description: Filter by orgunit attributes
+          name: attributes
+          required: false
+          type: array
+          collectionFormat: multi
+          items:
+            oneOf:
+              - type: array
+                collectionFormat: csv
+                items:
+                  type: string
+              - type: string
+        - in: query
+          description: Filter by orgtype
+          name: orgtype
+          type: string
+          required: false
+        - in: query
+          description: Limit serch for users that logged in at least once
+          name: firstLoginDone
+          type: string
+          required: false
+        - in: query
+          description: management flag for Admin panel
+          name: management
+          type: boolean
+          required: false
+        - in: query
+          description: Used only for finding users inside orgunit. This parameter - usersInOrgUnit first finds preset for searchable org units in order to see if user who triggered call with this parameter has rights to see users of this org chart position. Then, query is executed. Before we return any user data, every user data is scrapped in order to remove unneded data
+          name: usersInOrgUnit
+          type: boolean
+          required: false
+        - in: query
+          description: This param is used if you want to search for users that have active status in find call for count and usersInOrgUnits
+          name: searchForActiveUsers
+          type: boolean
+          required: false
+      responses:
+        '200':
+          description: List of all users
+          schema:
+            $ref: '#/components/schemas/users_list'
+        '400':
+          description: Request validation failed, consult response body for more details
+        '401':
+          description: User credentials not provided, invalid for the action, consult response body for more details
+        '405':
+          description: Method not allowed, this method is not available for this service.
+        '500':
+          description: System error, consult server log
+      description: Retrieves a list of all resources from the service.
+      summary: List users
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+    post:
+      operationId: createUser
+      parameters: []
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        '401':
+          description: not authenticated
+        '500':
+          description: general error
+      description: Creates a new resource with data.
+      summary: Create new user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+  /users/{_id}:
+    get:
+      operationId: getUser
+      parameters:
+        - in: path
+          name: _id
+          description: ID of users to return
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Retrieves a single resource with the given id from the service.
+      summary: Get user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+    put:
+      operationId: putUser
+      parameters:
+        - in: path
+          name: _id
+          description: ID of users to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Updates the resource identified by id using data.
+      summary: Update user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+    patch:
+      operationId: patchUser
+      parameters:
+        - in: path
+          name: _id
+          description: ID of users to update
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Updates the resource identified by id using data.
+      summary: Update user
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+    delete:
+      operationId: removeUser
+      parameters:
+        - in: path
+          name: _id
+          description: ID of users to remove
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
+        '500':
+          description: general error
+      description: Removes the resource with id.
+      summary: Remove User
+      tags:
+        - users
       security:
         - bearerAuth: []
 openapi: 3.0.3
