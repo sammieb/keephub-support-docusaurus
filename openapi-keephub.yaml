@@ -13,6 +13,13 @@ schemes:
 security:
   - bearerAuth: []
 components:
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      scheme: bearer
+      in: header
+      description: Bearer token to access api endpoints
   schemas:
     authentication:
       type: object
@@ -345,7 +352,6 @@ components:
           $ref: '#/components/schemas/contents_list'
     CommonGroupsProperties:
       type: object
-
       properties:
         name:
           type: object
@@ -357,45 +363,43 @@ components:
           type: string
           description: Language in which group was created. Used as default translation
     GroupsOutput:
-      allOf:
-        - $ref: '#/components/schemas/CommonGroupsProperties'
-        - type: object
-          properties:
-            _id:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id of group
+        orgchartAttrSelection:
+          type: object
+          description: 'Object that contains include and exclude properties. Both are arrays of arrays for org unit attributes that additionally filter orgchartSelection. Top-level array is interpreted as AND, second-level array is interpreted as OR.'
+          items:
+            type: array
+            items:
               type: string
-              description: Id of group
-            orgchartAttrSelection:
-              type: object
-              description: Object that contains include and exclude properties. Both are Array of arrays for org unit attributes that additionaly filter orgchartSelection, Top level array is interpreted as AND, Second level array is interpreted as OR
-              items:
-                type: array
-                items:
-                  type: string
-            groups:
-              type: array
-              description: Array of user groups that can read this content
-              items:
+        groups:
+          type: array
+          description: 'Array of user groups that can read this content.'
+          items:
+            type: string
+        translators:
+          type: array
+          description: 'Array of translators that worked on translation.'
+          items:
+            type: object
+            properties:
+              lang:
                 type: string
-            translators:
-              type: array
-              description: Array of translators that worked on translation
-              items:
-                type: object
-                properties:
-                  lang:
-                    type: string
-                  createdAt:
-                    type: string
-                  createdBy:
-                    type: string
-            excludeFromContent:
-              type: boolean
-              description: Exclude from content placement
-            orgunitsForAdditionalContacts:
-              type: array
-              description: Additional orgunits that users assign to this group will be able to find in contacts. Orgunits are expanded with their descendence
-              items:
+              createdAt:
                 type: string
+              createdBy:
+                type: string
+        excludeFromContent:
+          type: boolean
+          description: 'Exclude from content placement.'
+        orgunitsForAdditionalContacts:
+          type: array
+          description: 'Additional orgunits that users assign to this group will be able to find in contacts. Orgunits are expanded with their descendence.'
+          items:
+            type: string
     GroupsInput:
       required:
         - name
@@ -421,13 +425,6 @@ components:
             $ref: '#/components/schemas/GroupsOutput'
     CommonUsersProperties:
       type: object
-      required:
-        - name
-        - loginName
-        - email
-        - password
-        - groups
-        - regions
       properties:
         name:
           type: string
@@ -450,12 +447,15 @@ components:
     UsersInput:
       required:
         - name
+        - loginName
+        - email
+        - password
+        - groups
+        - regions
       allOf:
         - $ref: '#/components/schemas/CommonUsersProperties'
         - type: object    
     UsersOutput:
-      required:
-        - name
       allOf:
         - $ref: '#/components/schemas/CommonUsersProperties'
         - type: object    
@@ -485,8 +485,6 @@ components:
         - groups
         - regions
       properties:
-
-
         personalInfo:
           type: string
           description: Personal information that user puts for himself
@@ -909,7 +907,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupsOutput'
+                allOf:
+                  - $ref: '#/components/schemas/GroupsOutput'
+                  - $ref: '#/components/schemas/CommonGroupsProperties'
         '401':
           description: not authenticated
         '404':
@@ -1142,7 +1142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                $ref: '#/components/schemas/UsersOutput'
         '401':
           description: not authenticated
         '500':
@@ -1158,7 +1158,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/UsersInput'
   /users/{_id}:
     get:
       operationId: getUser
@@ -1175,7 +1175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                $ref: '#/components/schemas/UsersOutput'
         '401':
           description: not authenticated
         '404':
@@ -1203,7 +1203,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                $ref: '#/components/schemas/UsersOutput'
         '401':
           description: not authenticated
         '404':
@@ -1221,7 +1221,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/UsersInput'
     patch:
       operationId: patchUser
       parameters:
@@ -1237,7 +1237,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/users'
+                $ref: '#/components/schemas/UsersOutput'
         '401':
           description: not authenticated
         '404':
@@ -1255,7 +1255,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/UsersInput'
     delete:
       operationId: removeUser
       parameters:
